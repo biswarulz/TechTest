@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		1654AF9B5118F79C1ACB2509 /* Pods_MyTravelHelperTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = BD4A9E0F8C97F8AA92AAA053 /* Pods_MyTravelHelperTests.framework */; };
+		255E2215266520F400854AE6 /* SearchTrainInteractorTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 255E2214266520F400854AE6 /* SearchTrainInteractorTests.swift */; };
 		753C8FA422361EC9005FF13B /* TrainMovements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753C8FA122361EC9005FF13B /* TrainMovements.swift */; };
 		753C8FA522361EC9005FF13B /* StationInfo.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753C8FA222361EC9005FF13B /* StationInfo.swift */; };
 		753C8FA622361EC9005FF13B /* Stations.swift in Sources */ = {isa = PBXBuildFile; fileRef = 753C8FA322361EC9005FF13B /* Stations.swift */; };
@@ -41,6 +42,7 @@
 
 /* Begin PBXFileReference section */
 		11F481535B44216B54872EF2 /* Pods-MyTravelHelperTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyTravelHelperTests.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyTravelHelperTests/Pods-MyTravelHelperTests.debug.xcconfig"; sourceTree = "<group>"; };
+		255E2214266520F400854AE6 /* SearchTrainInteractorTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTrainInteractorTests.swift; sourceTree = "<group>"; };
 		2F515F7A370B032163D445BC /* Pods-MyTravelHelper.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyTravelHelper.release.xcconfig"; path = "Pods/Target Support Files/Pods-MyTravelHelper/Pods-MyTravelHelper.release.xcconfig"; sourceTree = "<group>"; };
 		4A3D05BF450D92647BC863F2 /* Pods-MyTravelHelper.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-MyTravelHelper.debug.xcconfig"; path = "Pods/Target Support Files/Pods-MyTravelHelper/Pods-MyTravelHelper.debug.xcconfig"; sourceTree = "<group>"; };
 		753C8FA122361EC9005FF13B /* TrainMovements.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = TrainMovements.swift; sourceTree = "<group>"; };
@@ -90,6 +92,13 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		255E22112665194400854AE6 /* Service */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		2BABC0CEC890350419CA1D40 /* Pods */ = {
 			isa = PBXGroup;
 			children = (
@@ -157,6 +166,7 @@
 			children = (
 				753C8FBD2237367E005FF13B /* SearchTrainPresenterTests.swift */,
 				753F085D223618AE00175107 /* Info.plist */,
+				255E2214266520F400854AE6 /* SearchTrainInteractorTests.swift */,
 			);
 			path = MyTravelHelperTests;
 			sourceTree = "<group>";
@@ -172,6 +182,7 @@
 		753F08682236191900175107 /* SearchTrains */ = {
 			isa = PBXGroup;
 			children = (
+				255E22112665194400854AE6 /* Service */,
 				753F086A2236196400175107 /* Entity */,
 				753F08692236196400175107 /* Interactor */,
 				753F086D2236196500175107 /* Presenter */,
@@ -434,6 +445,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				255E2215266520F400854AE6 /* SearchTrainInteractorTests.swift in Sources */,
 				753C8FBE2237367E005FF13B /* SearchTrainPresenterTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

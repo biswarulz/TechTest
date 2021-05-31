@@ -14,6 +14,13 @@ struct StationData: Codable {
     enum CodingKeys: String, CodingKey {
         case trainsList = "objStationData"
     }
+    
+    func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(trainsList, forKey: .trainsList)
+    }
 }
 
 struct StationTrain: Codable {

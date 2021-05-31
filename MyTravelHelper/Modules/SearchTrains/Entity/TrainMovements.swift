@@ -14,6 +14,13 @@ struct TrainMovementsData: Codable {
     enum CodingKeys: String, CodingKey {
         case trainMovements = "objTrainMovements"
     }
+    
+    func encode(to encoder: Encoder) throws {
+        
+        var container = encoder.container(keyedBy: CodingKeys.self)
+        
+        try container.encode(trainMovements, forKey: .trainMovements)
+    }
 }
 
 struct TrainMovement: Codable {

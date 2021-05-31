@@ -14,14 +14,24 @@ class SearchTrainInteractor: PresenterToInteractorProtocol {
     var _sourceStationCode = String()
     var _destinationStationCode = String()
     var presenter: InteractorToPresenterProtocol?
-
+    var urlSession: URLSession = URLSession.shared
+    var reach = Reach()
+    
     func fetchallStations() {
-        if Reach().isNetworkReachable() == true {
-            Alamofire.request("http://api.irishrail.ie/realtime/realtime.asmx/getAllStationsXML")
-                .response { (response) in
-                let station = try? XMLDecoder().decode(Stations.self, from: response.data!)
-                self.presenter!.stationListFetched(list: station!.stationsList)
-            }
+        
+        let urlString = "http://api.irishrail.ie/realtime/realtime.asmx/getAllStationsXML"
+        
+        // Issue - 4 : Replaced Alamofire call to URLSession call and refractored the code
+        if reach.isNetworkReachable(), let url = URL(string: urlString) {
+            
+            let request = URLRequest(url: url)
+            urlSession.dataTask(with: request) { (data, response, error) in
+                guard let data = data else { return }
+                
+                let station = try? XMLDecoder().decode(Stations.self, from: data)
+                self.presenter!.stationListFetched(list: station?.stationsList ?? [])
+            }.resume()
+
         } else {
             self.presenter!.showNoInterNetAvailabilityMessage()
         }
@@ -31,15 +41,24 @@ class SearchTrainInteractor: PresenterToInteractorProtocol {
         _sourceStationCode = sourceCode
         _destinationStationCode = destinationCode
         let urlString = "http://api.irishrail.ie/realtime/realtime.asmx/getStationDataByCodeXML?StationCode=\(sourceCode)"
-        if Reach().isNetworkReachable() {
-            Alamofire.request(urlString).response { (response) in
-                let stationData = try? XMLDecoder().decode(StationData.self, from: response.data!)
+        
+        // Issue - 5 : Replaced Alamofire call to URLSession call and refractored the code
+        if reach.isNetworkReachable(), let url = URL(string: urlString) {
+            
+            let request = URLRequest(url: url)
+            urlSession.dataTask(with: request) { (data, response, error) in
+                
+                guard let data = data else { return }
+                
+                let stationData = try? XMLDecoder().decode(StationData.self, from: data)
                 if let _trainsList = stationData?.trainsList {
                     self.proceesTrainListforDestinationCheck(trainsList: _trainsList)
                 } else {
                     self.presenter!.showNoTrainAvailbilityFromSource()
                 }
-            }
+
+            }.resume()
+
         } else {
             self.presenter!.showNoInterNetAvailabilityMessage()
         }
@@ -56,10 +75,15 @@ class SearchTrainInteractor: PresenterToInteractorProtocol {
         for index  in 0...trainsList.count-1 {
             group.enter()
             let _urlString = "http://api.irishrail.ie/realtime/realtime.asmx/getTrainMovementsXML?TrainId=\(trainsList[index].trainCode)&TrainDate=\(dateString)"
-            if Reach().isNetworkReachable() {
-                Alamofire.request(_urlString).response { (movementsData) in
-                    let trainMovements = try? XMLDecoder().decode(TrainMovementsData.self, from: movementsData.data!)
-
+            
+            // Issue - 6 : Replaced Alamofire call to URLSession call and refractored the code
+            if reach.isNetworkReachable(), let url = URL(string: _urlString)  {
+                    
+                let request = URLRequest(url: url)
+                urlSession.dataTask(with: request) { (data, response, error) in
+                    
+                    guard let data = data else { return }
+                    let trainMovements = try? XMLDecoder().decode(TrainMovementsData.self, from: data)
                     if let _movements = trainMovements?.trainMovements {
                         let sourceIndex = _movements.firstIndex(where: {$0.locationCode.caseInsensitiveCompare(self._sourceStationCode) == .orderedSame})
                         let destinationIndex = _movements.firstIndex(where: {$0.locationCode.caseInsensitiveCompare(self._destinationStationCode) == .orderedSame})
@@ -71,7 +95,8 @@ class SearchTrainInteractor: PresenterToInteractorProtocol {
                         }
                     }
                     group.leave()
-                }
+                }.resume()
+                
             } else {
                 self.presenter!.showNoInterNetAvailabilityMessage()
             }
